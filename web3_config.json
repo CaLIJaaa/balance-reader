@@ -51,28 +51,6 @@
                     "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
                 }
             ]
-        },
-        {
-            "name": "Tron",
-            "chainId": 728126428,
-            "tokens": [
-                {
-                    "name": "Tether USD",
-                    "address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
-                },
-                {
-                    "name": "USD Coin",
-                    "address": "TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8"
-                },
-                {
-                    "name": "Wrapped TRX",
-                    "address": "TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR"
-                },
-                {
-                    "name": "BitTorrent",
-                    "address": "TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4"
-                }
-            ]
         }
     ]
 }

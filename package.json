@@ -1,0 +1,13 @@
+{
+    "name": "balance-reader",
+    "version": "1.0.0",
+    "description": "Simple script to read token balances on Arbitrum",
+    "main": "balance-reader.js",
+    "scripts": {
+        "start": "node balance-reader.js"
+    },
+    "dependencies": {
+        "dotenv": "^17.2.2",
+        "ethers": "^6.8.0"
+    }
+}

@@ -1,0 +1,78 @@
+{
+    "networks": [
+        {
+            "name": "Arbitrum One",
+            "chainId": 42161,
+            "tokens": [
+                {
+                    "name": "Arbitrum",
+                    "address": "0x912CE59144191C1204E64559FE8253a0e49E6548"
+                },
+                {
+                    "name": "USD Coin",
+                    "address": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831"
+                },
+                {
+                    "name": "Tether USD",
+                    "address": "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"
+                },
+                {
+                    "name": "Wrapped Bitcoin",
+                    "address": "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f"
+                },
+                {
+                    "name": "Wrapped Ethereum",
+                    "address": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"
+                }
+            ]
+        },
+        {
+            "name": "Ethereum Mainnet",
+            "chainId": 1,
+            "tokens": [
+                {
+                    "name": "USD Coin",
+                    "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+                },
+                {
+                    "name": "Tether USD",
+                    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+                },
+                {
+                    "name": "Wrapped Bitcoin",
+                    "address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
+                },
+                {
+                    "name": "Wrapped Ethereum",
+                    "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+                },
+                {
+                    "name": "Uniswap",
+                    "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
+                }
+            ]
+        },
+        {
+            "name": "Tron",
+            "chainId": 728126428,
+            "tokens": [
+                {
+                    "name": "Tether USD",
+                    "address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
+                },
+                {
+                    "name": "USD Coin",
+                    "address": "TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8"
+                },
+                {
+                    "name": "Wrapped TRX",
+                    "address": "TNUC9Qb1rRpS5CbWLmNMxXBjyFoydXjWFR"
+                },
+                {
+                    "name": "BitTorrent",
+                    "address": "TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4"
+                }
+            ]
+        }
+    ]
+}

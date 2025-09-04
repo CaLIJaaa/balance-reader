@@ -1,4 +1,6 @@
 const { ethers } = require('ethers');
+const fs = require('fs');
+const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -9,7 +11,19 @@ const ERC20_ABI = [
     "function name() view returns (string)"
 ];
 
-const ARBITRUM_RPC = process.env.ARBITRUM_RPC;
+let config;
+try {
+    const configPath = path.join(__dirname, 'web3_config.json');
+    config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+} catch (error) {
+    console.error('Ошибка загрузки конфигурации:', error.message);
+    process.exit(1);
+}
+
+const rpcMapping = {
+    42161: process.env.ARBITRUM_RPC,    // Arbitrum
+    1: process.env.ETHEREUM_RPC,        // Ethereum
+};
 
 async function getTokenBalance(provider, tokenAddress, walletAddress) {
     try {
@@ -37,19 +51,40 @@ async function getTokenBalance(provider, tokenAddress, walletAddress) {
     }
 }
 
-async function readBalances(walletAddress, tokenAddresses) {
+async function readBalances(walletAddress, chainId) {
     console.log(`Чтение балансов для кошелька: ${walletAddress}`);
 
-    const provider = new ethers.JsonRpcProvider(ARBITRUM_RPC);
+    const network = config.networks.find(net => net.chainId === chainId);
+    if (!network) {
+        console.error(`Сеть с chainId ${chainId} не найдена в конфигурации`);
+        return [];
+    }
+
+    const rpcUrl = rpcMapping[chainId];
+    if (!rpcUrl) {
+        return [];
+    }
+
+    const provider = new ethers.JsonRpcProvider(rpcUrl);
 
     try {
-        const results = [await getEthBalance(provider, walletAddress)];
+        const results = [];
 
-        for (const tokenAddress of tokenAddresses) {
-            const balanceInfo = await getTokenBalance(provider, tokenAddress, walletAddress);
+        const ethBalance = await getEthBalance(provider, walletAddress);
+        if (ethBalance && parseFloat(ethBalance.balance) > 0) {
+            results.push(ethBalance);
+        }
+
+        for (const token of network.tokens) {
+            const balanceInfo = await getTokenBalance(provider, token.address, walletAddress);
 
             if (balanceInfo) {
-                results.push(balanceInfo);
+                if (parseFloat(balanceInfo.balance) > 0) {
+                    results.push(balanceInfo);
+                } else {
+                    console.log(`Баланс токена ${token.name} равен 0`);
+                }
+
             } else {
                 console.log(`Ошибка`);
             }
@@ -80,17 +115,17 @@ async function getEthBalance(provider, walletAddress) {
 }
 
 async function main() {
-    const walletAddress = '0x268cBDa30Dd229E5F9b084609a2bb9b73b0f8aaD';
-    const tokenAddresses = [
-        '0xe50fA9b3c56FfB159cB0FCA61F5c9D750e8128c8',
-        '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
-        '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
-    ];
+    const walletAddress = '0x7bfee91193d9df2ac0bfe90191d40f23c773c060';
 
-    const provider = new ethers.JsonRpcProvider(ARBITRUM_RPC);
+    const tokenBalances = await readBalances(walletAddress, 1);
 
-    const tokenBalances = await readBalances(walletAddress, tokenAddresses);
+    tokenBalances.forEach(token => {
+        if (token) {
+            console.log(`${token.symbol}: ${token.balance} (${token.name})`);
+        }
+    });
 
+    console.log('\nJSON результат:');
     console.log(JSON.stringify({ tokenBalances }, null, 2));
 }
 

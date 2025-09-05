@@ -1,3 +1,50 @@
+# Переменные окружения
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Зависимости
+node_modules/
+
+# Скомпилированные файлы
 dist/
-node_modules
+build/
+out/
+
+# Логи
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Файлы операционной системы
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE и редакторы
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Временные файлы
+.tmp/
+*.tmp
+
+# Coverage отчеты
+coverage/
+*.lcov
+
+# Кэш
+.npm
+.eslintcache
+.cache/

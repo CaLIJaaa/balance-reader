@@ -6,20 +6,29 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get('/api/balances/:address/:chainId', async (req, res) => {
+app.post('/api/balances', async (req, res) => {
     try {
-        const { address, chainId } = req.params;
+        const { address, chainId } = req.body;
 
-        if (!address || !/^0x[a-fA-F0-9]{40}$/.test(address)) {
+        if (!address || !chainId) {
             return res.status(400).json({
-                error: 'Неверный формат адреса кошелька'
+                error: 'Требуются поля: address и chainId',
+                required: ['address', 'chainId']
             });
         }
 
-        const chainIdNum = parseInt(chainId);
-        if (isNaN(chainIdNum)) {
+        if (typeof address !== 'string' || !/^0x[a-fA-F0-9]{40}$/.test(address)) {
             return res.status(400).json({
-                error: 'Неверный формат chainId'
+                error: 'Неверный формат адреса кошелька',
+                details: 'Адрес должен быть строкой в формате 0x...'
+            });
+        }
+
+        const chainIdNum = typeof chainId === 'number' ? chainId : parseInt(chainId);
+        if (isNaN(chainIdNum) || chainIdNum <= 0) {
+            return res.status(400).json({
+                error: 'Неверный формат chainId',
+                details: 'chainId должен быть положительным числом'
             });
         }
 
@@ -28,16 +37,21 @@ app.get('/api/balances/:address/:chainId', async (req, res) => {
         const balances = await readBalances(address, chainIdNum);
 
         res.json({
-            walletAddress: address,
-            chainId: chainIdNum,
-            balances: balances,
-            timestamp: new Date().toISOString()
+            success: true,
+            data: {
+                walletAddress: address,
+                chainId: chainIdNum,
+                balances: balances,
+                timestamp: new Date().toISOString()
+            }
         });
 
     } catch (error) {
         console.error('Ошибка при обработке запроса:', error);
         res.status(500).json({
-            error: 'Внутренняя ошибка сервера'
+            success: false,
+            error: 'Внутренняя ошибка сервера',
+            message: error instanceof Error ? error.message : 'Неизвестная ошибка'
         });
     }
 });

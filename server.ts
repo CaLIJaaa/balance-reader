@@ -17,13 +17,6 @@ app.post('/api/balances', async (req, res) => {
             });
         }
 
-        if (typeof address !== 'string' || !/^0x[a-fA-F0-9]{40}$/.test(address)) {
-            return res.status(400).json({
-                error: 'Неверный формат адреса кошелька',
-                details: 'Адрес должен быть строкой в формате 0x...'
-            });
-        }
-
         const chainIdNum = typeof chainId === 'number' ? chainId : parseInt(chainId);
         if (isNaN(chainIdNum) || chainIdNum <= 0) {
             return res.status(400).json({

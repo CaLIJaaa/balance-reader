@@ -2,12 +2,19 @@
     "name": "balance-reader",
     "version": "1.0.0",
     "description": "Simple script to read token balances on Arbitrum",
-    "main": "balance-reader.js",
+    "main": "balance-reader.ts",
     "scripts": {
-        "start": "node balance-reader.js"
+        "start": "ts-node balance-reader.ts",
+        "build": "tsc",
+        "dev": "ts-node --watch balance-reader.ts"
     },
     "dependencies": {
         "dotenv": "^17.2.2",
         "ethers": "^6.8.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "ts-node": "^10.9.0",
+        "typescript": "^5.0.0"
     }
 }

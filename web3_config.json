@@ -51,6 +51,28 @@
                     "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
                 }
             ]
+        },
+        {
+            "name": "TRON Mainnet",
+            "chainId": 728126428,
+            "tokens": [
+                {
+                    "name": "Tether USD (TRC20)",
+                    "address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
+                },
+                {
+                    "name": "USD Coin (TRC20)",
+                    "address": "TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8"
+                },
+                {
+                    "name": "JUST Stablecoin",
+                    "address": "TCFLL5dx5ZJdKnWuesXxi1VPwjLVmWZZy9"
+                },
+                {
+                    "name": "PePe",
+                    "address": "TMacq4TDUw5q8NFBwmbY4RLXvzvG5JTkvi"
+                }
+            ]
         }
     ]
 }

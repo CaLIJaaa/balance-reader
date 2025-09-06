@@ -159,13 +159,13 @@ npm start
 ```
 balance-reader/
 ├── src/
-│   ├── balanceService.ts    # Логика работы с блокчейнами
-│   └── server.ts           # Express сервер
-├── web3_config.json        # Конфигурация сетей и токенов
-├── package.json           # Зависимости проекта
-├── tsconfig.json          # Конфигурация TypeScript
-├── Dockerfile            # Конфигурация Docker
-└── docker-compose.yml    # Docker Compose конфигурация
+│   └── balanceService.ts     # Логика работы с блокчейнами
+├── web3_config.json          # Конфигурация сетей и токенов
+├── package.json              # Зависимости проекта
+├── tsconfig.json             # Конфигурация TypeScript
+├── Dockerfile                # Конфигурация Docker
+├── docker-compose.yml        # Docker Compose конфигурация
+└── server.ts                 # Express сервер
 ```
 
 ## 📝 Примечания

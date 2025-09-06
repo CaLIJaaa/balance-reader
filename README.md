@@ -28,7 +28,7 @@
 ### 1. Клонирование проекта
 
 ```bash
-git clone <ваш-репозиторий>
+git clone https://github.com/CaLIJaaa/balance-reader.git
 cd balance-reader
 ```
 

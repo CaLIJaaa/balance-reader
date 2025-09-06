@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  balance-reader:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    volumes:
+      - ./web3_config.json:/app/web3_config.json:ro

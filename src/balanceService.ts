@@ -2,9 +2,6 @@ import { ethers } from 'ethers';
 import { TronWeb } from 'tronweb';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 const ERC20_ABI = [
     "function balanceOf(address owner) view returns (uint256)",
@@ -89,9 +86,9 @@ try {
 }
 
 const rpcMapping: RPCMapping = {
-    42161: process.env.ARBITRUM_RPC,    // Arbitrum
-    1: process.env.ETHEREUM_RPC,        // Ethereum
-    728126428: process.env.TRON_RPC // TRON Mainnet
+    42161: "https://rpc.poolz.finance/arbitrum",    // Arbitrum
+    1: "https://eth.llamarpc.com",                  // Ethereum
+    728126428: "https://api.trongrid.io"            // TRON Mainnet
 };
 
 const TRON_NETWORK = 728126428

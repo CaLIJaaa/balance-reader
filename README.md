@@ -14,9 +14,9 @@
 
 | Сеть | Chain ID | Поддерживаемые токены |
 |------|----------|----------------------|
-| **Arbitrum One** | 42161 | ARB, USDC, USDT, WBTC, WETH |
-| **Ethereum Mainnet** | 1 | USDC, USDT, WBTC, WETH, UNI |
-| **TRON Mainnet** | 728126428 | USDT (TRC20), USDC (TRC20), JUST, PePe |
+| **Arbitrum One** | 42161 | ARB, USDC, USDT, WBTC, WETH, LINK, UNI, PEPE, GMX, MAGIC |
+| **Ethereum Mainnet** | 1 | USDC, USDT, BNB, WBTC, SOL, UNI, LINK, PEPE, SHIB, DAI, MATIC |
+| **TRON Mainnet** | 728126428 | USDT (TRC20), USDC (TRC20), JUST, WTRX, WIN, BTT, SUN, APENFT |
 
 ## 🚀 Быстрый старт
 

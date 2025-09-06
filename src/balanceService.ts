@@ -97,6 +97,14 @@ function getNetworkType(chainId: number): 'EVM' | 'TVM' {
     return chainId === TRON_NETWORK ? 'TVM' : 'EVM';
 }
 
+// Функция таймаута для предотвращения зависания
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+    const timeout = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Timeout')), ms)
+    );
+    return Promise.race([promise, timeout]);
+}
+
 export async function getTokenBalance(
     provider: ethers.JsonRpcProvider,
     tokenAddress: string,
@@ -105,8 +113,13 @@ export async function getTokenBalance(
     try {
         const contract = new ethers.Contract(tokenAddress, ERC20_ABI, provider);
 
-        const [balance, decimals, symbol, name] = await Promise.all([
-            contract.balanceOf(walletAddress),
+        const balance = await contract.balanceOf(walletAddress);
+
+        if (balance.toString() === '0') {
+            return null; // Экономим время на нулевых балансах
+        }
+
+        const [decimals, symbol, name] = await Promise.all([
             contract.decimals(),
             contract.symbol(),
             contract.name()
@@ -135,8 +148,13 @@ export async function getTronTokenBalance(
     try {
         const contract = await tronWeb.contract(TRC20_ABI, tokenAddress);
 
-        const [balance, decimals, symbol, name] = await Promise.all([
-            contract.balanceOf(walletAddress).call(),
+        const balance = await contract.balanceOf(walletAddress).call();
+
+        if (Number(balance) === 0) {
+            return null; // Экономим время на нулевых балансах
+        }
+
+        const [decimals, symbol, name] = await Promise.all([
             contract.decimals().call(),
             contract.symbol().call(),
             contract.name().call()
@@ -203,20 +221,26 @@ export async function readTronBalances(walletAddress: string, chainId: number): 
     try {
         const results: BalanceInfo[] = [];
 
-        const trxBalance = await getTrxBalance(tronWeb, walletAddress);
-        if (trxBalance && parseFloat(trxBalance.balance) > 0) {
-            results.push(trxBalance);
-        }
+        const balancePromises = [
+            // Нативный баланс TRX
+            getTrxBalance(tronWeb, walletAddress),
+            // Все TRC20 токены параллельно
+            ...network.tokens.map(token =>
+                getTronTokenBalance(tronWeb, token.address, walletAddress)
+            )
+        ];
 
-        for (const token of network.tokens) {
-            const balanceInfo = await getTronTokenBalance(tronWeb, token.address, walletAddress);
+        // Ждем все результаты одновременно с таймаутом 30 секунд
+        const balanceResults = await Promise.allSettled(
+            balancePromises.map(promise => withTimeout(promise, 30000))
+        );
 
-            if (balanceInfo) {
-                if (parseFloat(balanceInfo.balance) > 0) {
-                    results.push(balanceInfo);
+        // Обрабатываем результаты
+        for (const result of balanceResults) {
+            if (result.status === 'fulfilled' && result.value) {
+                if (parseFloat(result.value.balance) > 0) {
+                    results.push(result.value);
                 }
-            } else {
-                console.log(`Ошибка чтения баланса для TRON токена ${token.name}`);
             }
         }
 
@@ -253,20 +277,26 @@ export async function readBalances(walletAddress: string, chainId: number): Prom
     try {
         const results: BalanceInfo[] = [];
 
-        const ethBalance = await getEthBalance(provider, walletAddress);
-        if (ethBalance && parseFloat(ethBalance.balance) > 0) {
-            results.push(ethBalance);
-        }
+        const balancePromises = [
+            // Нативный баланс (ETH/ARB)
+            getEthBalance(provider, walletAddress),
+            // Все токены параллельно
+            ...network.tokens.map(token =>
+                getTokenBalance(provider, token.address, walletAddress)
+            )
+        ];
 
-        for (const token of network.tokens) {
-            const balanceInfo = await getTokenBalance(provider, token.address, walletAddress);
+        // Ждем все результаты одновременно с таймаутом 30 секунд
+        const balanceResults = await Promise.allSettled(
+            balancePromises.map(promise => withTimeout(promise, 30000))
+        );
 
-            if (balanceInfo) {
-                if (parseFloat(balanceInfo.balance) > 0) {
-                    results.push(balanceInfo);
+        // Обрабатываем результаты
+        for (const result of balanceResults) {
+            if (result.status === 'fulfilled' && result.value) {
+                if (parseFloat(result.value.balance) > 0) {
+                    results.push(result.value);
                 }
-            } else {
-                console.log(`Ошибка чтения баланса для ${token.name}`);
             }
         }
 

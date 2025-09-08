@@ -78,7 +78,7 @@ interface RPCMapping {
 
 let config: Config;
 try {
-    const configPath = path.join(__dirname, '../web3_config.json');
+    const configPath = path.resolve(process.cwd(), 'web3_config.json');
     config = JSON.parse(fs.readFileSync(configPath, 'utf8')) as Config;
 } catch (error) {
     console.error('Ошибка загрузки конфигурации:', (error as Error).message);

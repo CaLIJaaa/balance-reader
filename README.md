@@ -41,7 +41,7 @@ docker build -t balance-reader:latest .
 ### 3. Запуск контейнера
 
 ```bash
-docker run -d --name balance-reader-app -p 3000:3000 balance-reader:latest
+docker compose up --build -d
 ```
 
 ### 4. Проверка работы

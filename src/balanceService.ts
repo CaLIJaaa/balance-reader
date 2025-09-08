@@ -87,7 +87,7 @@ try {
 
 const rpcMapping: RPCMapping = {
     42161: "https://rpc.poolz.finance/arbitrum",    // Arbitrum
-    1: "https://eth.llamarpc.com",                  // Ethereum
+    1: "https://ethereum-rpc.publicnode.com",       // Ethereum
     728126428: "https://api.trongrid.io"            // TRON Mainnet
 };
 

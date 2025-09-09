@@ -53,14 +53,17 @@ git clone https://github.com/CaLIJaaa/balance-reader.git
 cd balance-reader
 ```
 
-2) Установка зависимостей (чистая установка рекомендуется при первом запуске)
+2) Установка зависимостей (чистая установка рекомендуется при первом запуске)  
+
+MacOS/Linux:
 ```bash
-rm -rf node_modules package-lock.json   # macOS/Linux
+rm -rf node_modules package-lock.json # если есть
 npm install
 ```
+
 Windows PowerShell:
 ```powershell
-Remove-Item -Recurse -Force node_modules, package-lock.json
+Remove-Item -Recurse -Force node_modules, package-lock.json # если есть
 npm install
 ```
 

@@ -4,10 +4,8 @@
     "description": "Simple script to read token balances on Arbitrum",
     "scripts": {
         "start": "node dist/server.js",
-        "dev": "tsx watch server.ts",
-        "build": "tsc -p tsconfig.json",
-        "script": "ts-node balance-reader.ts",
-        "dev-script": "ts-node --watch balance-reader.ts"
+        "dev": "nodemon --watch src --watch server.ts --ext ts --exec \"ts-node server.ts\"",
+        "build": "tsc -p tsconfig.json"
     },
     "dependencies": {
         "dotenv": "^17.2.2",
@@ -18,12 +16,12 @@
     "devDependencies": {
         "@types/node": "^20.0.0",
         "ts-node": "^10.9.0",
-        "tsx": "^4.19.0",
+        "nodemon": "^3.1.0",
         "@types/express": "^4.17.21",
         "typescript": "^5.0.0"
     },
     "engines": {
-        "node": "20.x",
-        "npm": "10.x"
+        "node": ">=18 <23",
+        "npm": ">=9"
     }
 }

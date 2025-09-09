@@ -22,36 +22,58 @@
 
 ### Предварительные требования
 
-- Docker Desktop установлен и запущен
-- Свободный порт 3000 на локальной машине
+- Свободный порт 3000
+- Для локального запуска: Node 18–22 и npm >= 9
+- Для контейнера: установлен Docker Desktop
 
-### 1. Клонирование проекта
+### Вариант A — Docker
 
+1) Клонирование
 ```bash
 git clone https://github.com/CaLIJaaa/balance-reader.git
 cd balance-reader
 ```
 
-### 2. Сборка Docker образа
-
-```bash
-docker build -t balance-reader:latest .
-```
-
-### 3. Запуск контейнера
-
+2) Сборка и запуск
 ```bash
 docker compose up --build -d
 ```
 
-### 4. Проверка работы
-
+3) Проверка
 ```bash
-# Health check
 curl http://localhost:3000/api/health
+# {"status":"ok","timestamp":"..."}
+```
 
-# Должен вернуть:
-# {"status":"ok","timestamp":"2025-09-06T12:16:16.297Z"}
+### Вариант B — Локально (без Docker)
+
+1) Клонирование
+```bash
+git clone https://github.com/CaLIJaaa/balance-reader.git
+cd balance-reader
+```
+
+2) Установка зависимостей (чистая установка рекомендуется при первом запуске)
+```bash
+rm -rf node_modules package-lock.json   # macOS/Linux
+npm install
+```
+Windows PowerShell:
+```powershell
+Remove-Item -Recurse -Force node_modules, package-lock.json
+npm install
+```
+
+3) Запуск разработки
+```bash
+npm run dev
+# Ожидаемо: "Сервер запущен на порту 3000"
+```
+
+4) Проверка
+```bash
+curl http://localhost:3000/api/health
+# {"status":"ok","timestamp":"..."}
 ```
 
 ## API Endpoints
@@ -140,19 +162,15 @@ curl -X POST http://localhost:3000/api/balances \
 
 ## Разработка
 
-### Локальный запуск без Docker
+### Скрипты
+- dev: запуск в dev-режиме (watch)
+- build: сборка TypeScript в `dist`
+- start: запуск собранного приложения из `dist`
+
+Команды:
 ```bash
-# Установка зависимостей
-npm install
-
-# Запуск в режиме разработки
-npm run dev
-
-# Сборка TypeScript
-npm run build
-
-# Запуск собранного приложения
-npm start
+npm run dev                 # разработка
+npm run build && npm start  # прод-сборка и запуск
 ```
 
 ### Структура проекта

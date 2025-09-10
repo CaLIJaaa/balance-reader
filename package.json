@@ -4,7 +4,7 @@
     "description": "Simple script to read token balances on Arbitrum",
     "scripts": {
         "start": "node dist/server.js",
-        "dev": "nodemon --watch src --watch server.ts --ext ts --exec \"ts-node server.ts\"",
+        "dev": "nodemon",
         "build": "tsc -p tsconfig.json"
     },
     "dependencies": {
